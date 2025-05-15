@@ -1,29 +1,37 @@
 from .base import *
-
 DEBUG = False
 
-import os, dj_database_url   # pip install dj-database-url
+import os, dj_database_url
+from pathlib import Path               # NEW
 
-ALLOWED_HOSTS = [
-    "your-render-service.onrender.com",   # Render URL
-    "www.yourdomain.com",                 # custom domain
-]
+# Convert BASE_DIR to a Path if base.py left it as a string
 
-# read DATABASE_URL that Render injects
-DATABASES = {
-    "default": dj_database_url.config(conn_max_age=600, ssl_require=True)
-}
+if isinstance(BASE_DIR, str):     # new
+    BASE_DIR = Path(BASE_DIR)     # new
 
-# WhiteNoise: serve static files without Nginx
+
+ALLOWED_HOSTS = ["YOUR-SERVICE.onrender.com"]  # add custom domain later
+
+# ---> Static files ---------------------------------------------
+STATIC_ROOT = BASE_DIR / "staticfiles"         # now works (Path / str)
 MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
 STATICFILES_STORAGE = (
     "whitenoise.storage.CompressedManifestStaticFilesStorage"
 )
-STATIC_ROOT = BASE_DIR / "staticfiles"    # usually already in base.py
-# ---- new lines end here ---------------------------------------
+# ---------------------------------------------------------------
 
+# ---> Database -------------------------------------------------
+DATABASES = {
+    "default": dj_database_url.config(
+        default="postgres://*",        # ignored once DATABASE_URL appears
+        conn_max_age=600,
+        ssl_require=True,
+    )
+}
+# ---------------------------------------------------------------
 
 try:
     from .local import *
 except ImportError:
     pass
+
