@@ -30,7 +30,8 @@ DATABASES = {
 }
 # ---------------------------------------------------------------
 ALLOWED_HOSTS = [
-    "wagtail-site.onrender.com",   # your actual Render sub-domain
+    "wagtail-site.onrender.com",
+    "www.stumptownfin.com"
 ]
 
 RENDER_HOST = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
