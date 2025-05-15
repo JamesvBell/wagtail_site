@@ -29,7 +29,9 @@ DATABASES = {
     )
 }
 # ---------------------------------------------------------------
-
+ALLOWED_HOSTS = [
+    "wagtail-site.onrender.com",   # your actual Render sub-domain
+]
 try:
     from .local import *
 except ImportError:
