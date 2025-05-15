@@ -32,6 +32,10 @@ DATABASES = {
 ALLOWED_HOSTS = [
     "wagtail-site.onrender.com",   # your actual Render sub-domain
 ]
+
+RENDER_HOST = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+if RENDER_HOST:
+    ALLOWED_HOSTS.append(RENDER_HOST)
 try:
     from .local import *
 except ImportError:
